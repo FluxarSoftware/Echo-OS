@@ -1,4 +1,5 @@
 #include "print.h"
+#include <stdbool.h>
 
 const static size_t NUM_COLS = 80;
 const static size_t NUM_ROWS = 25;
@@ -75,6 +76,43 @@ void print_str(char* str) {
 
         print_char(character);
     }
+}
+
+void print_int(int num, int base) {
+    char str[32]; // Assuming max 32 digits
+    int i = 0;
+    bool isNegative = false;
+
+    // Handle negative numbers
+    if (num < 0) {
+        isNegative = true;
+        num = -num;
+    }
+
+    // Convert to string (reverse order)
+    do {
+        int remainder = num % base;
+        str[i++] = (remainder < 10) ? remainder + '0' : remainder + 'a' - 10;
+        num = num / base;
+    } while (num != 0);
+
+    if (isNegative)
+        str[i++] = '-';
+
+    str[i] = '\0';
+
+    // Reverse the string
+    int start = 0;
+    int end = i - 1;
+    while (start < end) {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
+    
+    print_str(str);
 }
 
 void print_set_color(uint8_t foreground, uint8_t background) {
