@@ -1,8 +1,6 @@
+section .text
 global check_long_mode
 extern error
-
-section .text
-bits 32
 
 check_long_mode:
     mov eax, 0x80000000
@@ -15,7 +13,6 @@ check_long_mode:
     test edx, 1 << 29
     jz .no_long_mode
     ret
-
 .no_long_mode:
-    mov eax, "L"
-    call error
+    mov al, "L"
+    jmp error

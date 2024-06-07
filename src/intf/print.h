@@ -3,19 +3,6 @@
 #include <stdint.h>
 #include <stddef.h>
 
-extern const size_t NUM_COLS;
-extern const size_t NUM_ROWS;
-
-struct Char {
-    uint8_t character;
-    uint8_t color;
-};
-
-extern struct Char* buffer;
-extern size_t col;
-extern size_t row;
-extern uint8_t color;
-
 enum {
   PRINT_COLOR_BLACK = 0,
   PRINT_COLOR_BLUE = 1,
@@ -38,5 +25,6 @@ enum {
 void print_clear();
 void print_char(char character);
 void print_str(char* string);
+void print_newline();
 void print_int(int num, int base);
 void print_set_color(uint8_t foreground, uint8_t background);

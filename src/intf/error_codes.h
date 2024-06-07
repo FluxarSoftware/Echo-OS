@@ -1,8 +1,0 @@
-#ifndef ERROR_CODES_H
-#define ERROR_CODES_H
-
-#define ERROR_DISK_READ 0x01
-#define ERROR_INVALID_MEMORY_ACCESS 0x02
-#define ERROR_DIVISION_BY_ZERO 0x03
-
-#endif

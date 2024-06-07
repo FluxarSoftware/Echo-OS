@@ -30,31 +30,43 @@ void print_clear() {
     }
 }
 
-void print_newline() {
-    col = 0;
-
-    if (row < NUM_ROWS - 1) {
-        row++;
-        return;
-    }
-
+void scroll() {
     for (size_t row = 1; row < NUM_ROWS; row++) {
         for (size_t col = 0; col < NUM_COLS; col++) {
-            struct Char character = buffer[col + NUM_COLS * row];
-            buffer[col + NUM_COLS * (row - 1)] = character;
+            buffer[col + NUM_COLS * (row - 1)] = buffer[col + NUM_COLS * row];
         }
     }
-
-    clear_row(NUM_COLS - 1);
+    clear_row(NUM_ROWS - 1);
 }
 
+void print_newline() {
+    col = 0;
+    if (row < NUM_ROWS - 1) {
+        row++;
+    } else {
+        scroll();
+    }
+}
 void print_char(char character) {
     if (character == '\n') {
         print_newline();
         return;
     }
 
-    if (col > NUM_COLS) {
+    if (character == '\b') {
+        if (col == 0) {
+           if (row > 0) {
+               row--;
+               col = NUM_COLS - 1;
+           }
+        } else {
+            col--;
+        }
+        buffer[col + NUM_COLS * row].character = ' ';
+        return;
+    }
+
+    if (col >= NUM_COLS) {
         print_newline();
     }
 
@@ -69,11 +81,9 @@ void print_char(char character) {
 void print_str(char* str) {
     for (size_t i = 0; 1; i++) {
         char character = (uint8_t) str[i];
-
         if (character == '\0') {
             return;
         }
-
         print_char(character);
     }
 }
